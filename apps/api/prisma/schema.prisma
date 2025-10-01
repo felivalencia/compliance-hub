@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id         String   @id @default(cuid())
+  name       String
+  curp       String?  @unique
+  rfc        String?  @unique
+  country    String?  @default("MX")
+  occupation String?
+  riskScore  Int      @default(0)
+  status     String   @default("Pending")
+  documents  Document[]
+  matches    ScreeningMatch[]
+  cases      Case[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Document {
+  id         String   @id @default(cuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  type       String
+  url        String
+  ocrText    String?
+  status     String   @default("Received")
+  createdAt  DateTime @default(now())
+}
+
+model ScreeningMatch {
+  id         String   @id @default(cuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  list       String   // List type (e.g. sanctions, pep)
+  entry      String   // Matched entry from list
+  similarity Float
+  severity   String   // Risk level: low/med/high
+  createdAt  DateTime @default(now())
+}
+
+model Case {
+  id         String   @id @default(cuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  status     String   @default("Open") // Case status: Open/Review/Closed
+  assignee   String?
+  createdAt  DateTime @default(now())
+  closedAt   DateTime?
+}
+
+model AuditEvent {
+  id        String   @id @default(cuid())
+  actor     String
+  action    String
+  entity    String
+  entityId  String
+  redacted  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}

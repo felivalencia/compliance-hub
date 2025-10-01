@@ -1,0 +1,32 @@
+{
+  "name": "compliance-hub-api",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsup src/server.ts --format esm,cjs --dts --clean && tsup src/index.ts --format esm,cjs --dts --clean",
+    "start:prod": "node dist/index.js",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "prisma": "prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.6.1",
+    "prisma": "^5.18.0",
+    "tsup": "^8.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
+  }
+}

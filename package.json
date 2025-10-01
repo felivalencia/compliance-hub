@@ -1,0 +1,19 @@
+{
+  "name": "compliance-hub",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm -C apps/api dev & pnpm -C apps/web dev",
+    "build": "pnpm -C apps/api build && pnpm -C apps/web build",
+    "db:push": "pnpm -C apps/api db:push",
+    "db:seed": "pnpm -C apps/api db:seed",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down -v"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
+}
